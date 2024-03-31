@@ -8,9 +8,6 @@ const DISCORD_FILE_LIMIT = 8000000;
 
 export default {
   async email(message, env, ctx) {
-    if (env.FORWARD_TO_ADDRESS) {
-      await message.forward(env.FORWARD_TO_ADDRESS);
-    }
     let rawEmail = new Response(message.raw);
     let arrayBuffer = await rawEmail.arrayBuffer();
     const parser = new PostalMime.default();
@@ -73,6 +70,9 @@ export default {
     // Or you could make it fail if the webhook fails, causing the sending mail server to error out.
     // Or you could do something more complex with adding it to a Queue and retrying sending to Discord, etc
     // For now, I don't really care about those conditions
+    if (env.FORWARD_TO_ADDRESS) {
+      await message.forward(env.FORWARD_TO_ADDRESS);
+    }
   },
   trimToLimit(input, limit) {
     return input.length > limit ? `${input.substring(0, limit - 12)}...(TRIMMED)` : input;
