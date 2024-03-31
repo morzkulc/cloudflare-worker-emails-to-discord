@@ -1,5 +1,5 @@
 {
-  "name": "cloudflare-worker-emails-to-discord",
+  "name": "list-to-discord",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,6 +11,6 @@
   "dependencies": {
     "html-to-text": "^9.0.4",
     "postal-mime": "^1.0.13",
-    "wrangler": "^2.7.1"
+    "wrangler": "^3.41.0"
   }
 }

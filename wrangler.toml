@@ -1,9 +1,7 @@
-name = "discordhook"
+name = "list-to-discord"
 main = "index.js"
-compatibility_date = "2022-01-11"
+compatibility_date = "2024-03-31"
 
-[vars]
-# The necessary secrets are:
+#[vars]
 # - DISCORD_WEBHOOK_URL
-# You can set this to forward to an address as well
 # - FORWARD_TO_ADDRESS
