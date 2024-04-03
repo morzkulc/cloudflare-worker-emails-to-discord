@@ -1,6 +1,6 @@
 name = "list-to-discord"
 main = "index.js"
-compatibility_date = "2024-03-31"
+compatibility_date = "2024-03-20"
 
 #[vars]
 # - DISCORD_WEBHOOK_URL

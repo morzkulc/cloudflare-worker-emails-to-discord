@@ -8,8 +8,8 @@ const DISCORD_FILE_LIMIT = 8000000;
 
 export default {
   async email(message, env, ctx) {
-    const allowList = [env.ALLOWED_ADDRESS];
-    if (allowList.indexOf(message.from) == -1 && allowList.indexOf(message.sender) == -1) {
+    const blockList = [env.FORBIDDEN_ADDRESS];
+    if (blockList.indexOf(message.from) >= 0 || blockList.indexOf(message.sender) >= 0) {
       message.setReject("Odrzucono: niedozwolony nadawca");
       return;
     }
