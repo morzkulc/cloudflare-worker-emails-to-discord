@@ -9,8 +9,12 @@ const DISCORD_FILE_LIMIT = 8000000;
 export default {
   async email(message, env, ctx) {
     const blockList = [env.FORBIDDEN_ADDRESS];
-    if (blockList.indexOf(message.from) >= 0 || blockList.indexOf(message.sender) >= 0) {
-      message.setReject("Odrzucono: niedozwolony nadawca");
+    if (blockList.indexOf(message.from) >= 0) {
+      try {
+        if (env.FORWARD_TO_ADDRESS) {
+          await message.forward(env.FORWARD_TO_ADDRESS);
+        }
+      } catch (e) {}
       return;
     }
     let rawEmail = new Response(message.raw);
@@ -24,10 +28,14 @@ export default {
     }
     const forbiddenString = env.FORBIDDEN_STRING;
     if (emailText.indexOf(forbiddenString) != -1) {
-      message.setReject("Odrzucono: niedozwolony ciąg znaków");
+      try {
+        if (env.FORWARD_TO_ADDRESS) {
+          await message.forward(env.FORWARD_TO_ADDRESS);
+        }
+      } catch (e) {}
       return;
     }
-// The overall limit is 6000 characters, and we limit the embed body to 4096 characters, so the rest has ~1900 characters to work with
+    // The overall limit is 6000 characters, and we limit the embed body to 4096 characters, so the rest has ~1900 characters to work with
     let embedBody = JSON.stringify({
       embeds: [
         {
