@@ -26,13 +26,20 @@ export default {
       // If there is no text, try to get the text from the html
       emailText = convert(email.html);
     }
-    const forbiddenString = env.FORBIDDEN_STRING;
-    if (emailText.indexOf(forbiddenString) != -1) {
-      try {
-        if (env.FORWARD_TO_ADDRESS) {
-          await message.forward(env.FORWARD_TO_ADDRESS);
-        }
-      } catch (e) {}
+    const forbiddenStrings = ('' + env.FORBIDDEN_STRING).split(';');
+    let toSend = true;
+    for (const i in forbiddenStrings) {
+      if (emailText.indexOf(forbiddenStrings[i]) != -1) {
+        toSend = false;
+        break;
+      }
+    }
+    try {
+      if (env.FORWARD_TO_ADDRESS) {
+        await message.forward(env.FORWARD_TO_ADDRESS);
+      }
+    } catch (e) {}
+    if (!toSend) {
       return;
     }
     // The overall limit is 6000 characters, and we limit the embed body to 4096 characters, so the rest has ~1900 characters to work with
